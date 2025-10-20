@@ -1,0 +1,168 @@
+<div class="min-h-screen p-4 md:p-8">
+  <div class="container mx-auto max-w-6xl space-y-8">
+    <!-- Header -->
+    <div class="flex items-center gap-4">
+      <a routerLink="/" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 w-10">
+        <!-- Ícone de Seta para Esquerda -->
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+      </a>
+      <div>
+        <h1 class="text-4xl font-bold text-blue-700 bg-clip-text">
+          Pilha (Stack)
+        </h1>
+        <p class="font-bold text-gray-500">Estrutura de dados LIFO (Last In, First Out) - O último a entrar é o primeiro a sair</p>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+      <h3 class="text-xl font-bold">O que é uma Pilha?</h3>
+      <p>
+        Uma pilha é uma estrutura de dados que armazena elementos de forma sequencial que segue o princípio LIFO (Last In, First Out), ou seja, o último elemento inserido na pilha é o primeiro a ser removido, como uma pilha de pratos ou uma pilha de livros. Sempre que um novo elemento é inserido (ou empilhado) damos a ele o nome de “topo”,
+      </p>
+      <p class="text-xl pt-2"><strong>Operações principais:</strong></p>
+      <ul class="text-x1 space-y-1 ml-4">
+        <li>• Push: O(1) - Adiciona elemento no topo</li>
+        <li>• Pop: O(1) - Remove elemento do topo</li>
+        <li>• Peek: O(1) - Visualiza o topo sem remover</li>
+        <li>• isEmpty: O(1) - Verifica se está vazia</li>
+      </ul>
+    </div>
+
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+      <p class="text-xl pt-2"><strong>Algumas aplicações são:</strong></p>
+      <ul class="text-x1 space-y-1 ml-4">
+        <li>• Desfazer e refazer em Aplicações, os famosos “Undo” e “Redo”. (O famoso CRTL-Z e seu irmão menos famoso CRTL-Y).</li>
+        <li>• Navegação em “browsers, com o botão “Voltar”.</li>
+        <li>• Torre de Hanoi (apenas o disco no topo pode ser movido).</li>
+        <li>• Problemas recursivos em matemática, como cálculo de fatoriais ou números de Fibonacci, dependem de pilhas nos bastidores.</li>
+        <li>• Na execução de programas, cada chamada de função é armazenada em uma pilha. A função mais recente chamada fica no topo e deve ser concluída antes que as anteriores possam continuar.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
+      <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
+        <pre><code>
+class Queue &#123;
+  constructor() &#123;
+    this.items = [];
+  &#125;
+
+  enqueue(element) &#123;
+    this.items.push(element);
+  &#125;
+
+  dequeue() &#123;
+    if (this.isEmpty()) return null;
+    return this.items.shift();
+  &#125;
+
+  front() &#123;
+    if (this.isEmpty()) return null;
+    return this.items[0];
+  &#125;
+
+  isEmpty() &#123;
+    return this.items.length === 0;
+  &#125;
+&#125;
+        </code></pre>
+      </div>
+    </div>
+
+
+    <!-- Controles -->
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h3 class="text-xl font-bold">Controles</h3>
+      <!-- Push -->
+      <div class="flex gap-2">
+        <input
+          type="number"
+          placeholder="Empilhar elemento..."
+          class="flex h-10 w-full rounded-md border border-gray-400 bg-transparent px-3 py-2 text-sm"
+          [(ngModel)]="inputValue"
+          (keydown.enter)="push()"
+        />
+        <button (click)="push()" class="px-4 py-2 rounded-md font-semibold text-white bg-[var(--primary)] hover:opacity-90 transition-opacity flex items-center">
+          <!-- Ícone de Mais -->
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+          Push
+        </button>
+      </div>
+
+      <!-- Ações -->
+      <div class="grid grid-cols-3 gap-1">
+        <button (click)="pop()" class="px-4 py-2 rounded-md font-semibold border border-[var(--blue)] text-[var(--blue)] hover:bg-[var(--blue)] hover:text-white flex items-center justify-center">
+          <!-- Ícone de Seta para Cima -->
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+          Pop
+        </button>
+        <button (click)="peek()" class="px-4 py-2 rounded-md font-semibold border border-gray-500 text-gray-400 hover:bg-gray-500 hover:text-white">
+          Peek (Ver topo)
+        </button>
+      
+
+      <button (click)="clear()" class="px-4 py-2 rounded-md font-semibold bg-red-600 text-white hover:bg-red-700 flex items-center justify-center">
+        <!-- Ícone de Lixeira -->
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        Limpar Pilha
+      </button>
+      </div>
+    </div>
+
+    <!-- Visualização -->
+    <div class="rounded-lg border border-gray-400 p-6">
+      <h3 class="text-xl font-bold">Visualização</h3>
+      <p class="text-sm">
+        {{ stack.length }} elemento{{ stack.length !== 1 ? 's' : '' }} na pilha
+        <span *ngIf="stack.length > 0"> • Topo: {{ stack[stack.length - 1] }}</span>
+      </p>
+      
+      <div *ngIf="stack.length === 0; else stackView" class="text-center py-12">
+        Pilha vazia. Empilhe alguns elementos!
+      </div>
+
+      <ng-template #stackView>
+        <div class="flex flex-col-reverse items-center gap-2 py-4">
+          <!-- Base da Pilha -->
+          <div class="text-xs">BASE</div>
+          <div class="w-64 h-2 bg-gray-600 rounded-full mb-2"></div>
+
+          <!-- Elementos da Pilha -->
+          <div *ngFor="let value of stack; let i = index" class="relative group">
+            <div class="w-64 h-16 rounded-lg flex items-center justify-between px-6 transition-all duration-300"
+                 [ngClass]="{
+                   'bg-gradient-to-r from-[var(--primary)] to-[var(--blue)] shadow-lg scale-105': i === stack.length - 1,
+                   'bg-gray-700': i !== stack.length - 1
+                 }">
+              <div class="flex items-center gap-3">
+                <div class="text-xs text-white/70 font-medium">
+                  <span *ngIf="i === stack.length - 1">Topo</span>
+                  <span *ngIf="i !== stack.length - 1">Posição {{ i }}</span>
+                </div>
+                <div class="text-2xl font-bold text-white">{{ value }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+      <h3 class="text-xl font-bold">Referências</h3>
+      <p class="text-gray-800">
+        Leia mais sobre pilhas com os materias base para a criação desse projeto:
+      </p>
+      <div class="space-y-1">
+        <div>
+          • <a href="https://www.upgrad.com/blog/stack-example-in-real-life/" target="_blank" class="text-[var(--blue)] hover:underline">Aplicações práticas e uso de pilhas na vida real (Upgrad)</a>
+        </div>
+        <div>
+          • <a href="https://www.treinaweb.com.br/blog/o-que-e-e-como-funciona-a-estrutura-de-dados-pilha" target="_blank" class="text-[var(--blue)] hover:underline">O que é uma Estrutura de Dados do tipo Pilha (TreinaWeb)</a>
+        </div>
+    </div>
+
+  </div>
+</div>

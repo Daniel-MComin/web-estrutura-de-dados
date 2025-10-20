@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+:root {
+  --black: rgb(10, 10, 10);
+  --white: rgb(255, 255, 255);
+  --primary: rgb(113 63 230);
+  --blue: rgb(77, 13, 226);
+
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+

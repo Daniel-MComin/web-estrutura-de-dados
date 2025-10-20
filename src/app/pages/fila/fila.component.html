@@ -1,0 +1,144 @@
+<div class="min-h-screen p-4 md:p-8">
+  <div class="container mx-auto max-w-6xl space-y-8">
+    <!-- Header -->
+    <div class="flex items-center gap-4">
+      <a routerLink="/" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 w-10">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+      </a>
+      <div>
+        <h1 class="text-4xl font-bold text-blue-700 mb-2">
+          Fila (Queue)
+        </h1>
+        <p class="font-bold text-gray-500">
+          Estrutura de dados FIFO (First In, First Out) - O primeiro a entrar é o primeiro a sair
+        </p>
+      </div>
+    </div>
+
+    <!-- Como Funciona -->
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Como funciona?</h2>
+      <p>
+        A fila funciona como uma fila de banco: o primeiro cliente a chegar é o primeiro a ser atendido.
+        Novos elementos são adicionados no final da fila e removidos do início.
+      </p>
+      <div class="space-y-2">
+        <h3 class="font-semibold">Operações principais:</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>enqueue()</strong>: Adiciona um elemento no final da fila - O(1)</li>
+          <li><strong>dequeue()</strong>: Remove e retorna o elemento do início - O(n) em JS, O(1) em listas ligadas</li>
+          <li><strong>front()</strong>: Retorna o elemento do início sem removê-lo - O(1)</li>
+          <li><strong>isEmpty()</strong>: Verifica se a fila está vazia - O(1)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Exemplo de Código -->
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
+      <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
+        <pre><code>
+class Queue &#123;
+  constructor() &#123;
+    this.items = [];
+  &#125;
+
+  enqueue(element) &#123;
+    this.items.push(element);
+  &#125;
+
+  dequeue() &#123;
+    if (this.isEmpty()) return null;
+    return this.items.shift();
+  &#125;
+
+  front() &#123;
+    if (this.isEmpty()) return null;
+    return this.items[0];
+  &#125;
+
+  isEmpty() &#123;
+    return this.items.length === 0;
+  &#125;
+&#125;
+        </code></pre>
+      </div>
+    </div>
+
+    <!-- Visualização Interativa -->
+    <div class="rounded-lg border border-gray-400 p-6 space-y-6">
+      <h2 class="text-2xl font-semibold">Visualização Interativa</h2>
+      
+      <div class="flex gap-2 min-h-[150px] items-center p-6 bg-gray-400/50 rounded-lg overflow-x-auto">
+        <div *ngIf="queue.length === 0; else queueView" class="mx-auto">
+          Fila vazia - adicione elementos abaixo
+        </div>
+        <ng-template #queueView>
+          <div class="text-sm whitespace-nowrap mr-4">COMEÇO →</div>
+          <div *ngFor="let value of queue; let i = index" class="flex flex-col items-center gap-1 min-w-[80px]">
+            <div class="text-2xl font-bold text-[var(--primary)]">{{ value }}</div>
+            <div *ngIf="i === 0" class="text-xs text-[var(--blue)]">Próximo</div>
+          </div>
+          <div class="text-sm whitespace-nowrap ml-4">← FINAL</div>
+        </ng-template>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <h3 class="font-semibold">Enfileirar (Adicionar no fim)</h3>
+          <div class="flex gap-2">
+            <input
+              type="number"
+              placeholder="Digite um número"
+              class="flex h-10 w-full rounded-md border border-gray-400 bg-transparent px-3 py-2 text-sm"
+              [(ngModel)]="inputValue"
+              (keydown.enter)="enqueue()"
+            />
+            <button (click)="enqueue()" class="px-4 py-2 rounded-md font-semibold text-white bg-[var(--primary)] hover:opacity-90 transition-opacity flex items-center">
+              <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+              Enqueue
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-semibold">Desenfileirar (Remover do início)</h3>
+          <button 
+            (click)="dequeue()"
+            class="w-full px-4 py-2 rounded-md font-semibold border border-[var(--blue)] text-[var(--blue)] hover:bg-[var(--blue)] hover:text-white transition-colors flex items-center justify-center"
+            [disabled]="queue.length === 0"
+            [class.opacity-50]="queue.length === 0"
+            [class.cursor-not-allowed]="queue.length === 0">
+            <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+            Dequeue
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="queue.length > 0" class="p-4 bg-blue-900/20 rounded-lg border border-[var(--blue)]">
+        <p class="text-sm">
+          <strong>Próximo da fila:</strong> {{ queue[0] }}
+        </p>
+        <p class="text-sm">
+          Tamanho: {{ queue.length }} elemento(s)
+        </p>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+      <h3 class="text-xl font-bold">Referências</h3>
+      <p class="text-gray-800">
+        Leia mais sobre filas com os materias base para a criação desse projeto:
+      </p>
+      <div class="space-y-1">
+        <div>
+          • <a href="https://www.upgrad.com/blog/stack-example-in-real-life/" target="_blank" class="text-[var(--blue)] hover:underline">Aplicações práticas e uso de pilhas na vida real (Upgrad)</a>
+        </div>
+        <div>
+          • <a href="https://www.treinaweb.com.br/blog/o-que-e-e-como-funciona-a-estrutura-de-dados-pilha" target="_blank" class="text-[var(--blue)] hover:underline">O que é uma Estrutura de Dados do tipo Pilha (TreinaWeb)</a>
+        </div>
+    </div>
+
+  </div>
+  </div>
+</div>
