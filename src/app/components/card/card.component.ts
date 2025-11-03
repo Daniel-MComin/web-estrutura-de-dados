@@ -20,7 +20,7 @@ export class CardComponent {
   estruturas: EstruturaCard[] = [
     {
       name: 'Array',
-      description: 'Coleção de itens em locais de memória contíguos.',
+      description: 'Arranjo ou vetor, é uma estrutura de dados que armazena uma coleção de valores do mesmo tipo.',
       iconPath: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
       link: '/array'
     },
@@ -32,15 +32,21 @@ export class CardComponent {
     },
     {
       name: 'Pilha',
-      description: 'Coleção LIFO (Last-In, First-Out).',
+      description: 'LIFO (Last-In, First-Out).',
       iconPath: 'M4 7v10m4-10v10m4-10v10m4-10v10M2 21h20',
       link: '/pilha'
     },
     {
       name: 'Fila',
-      description: 'Coleção FIFO (First-In, First-Out).',
+      description: 'FIFO (First-In, First-Out).',
       iconPath: 'M17 8l4 4m0 0l-4 4m4-4H3',
       link: '/fila'
+    },
+    {
+      name: 'Treap',
+      description: 'Combinação das propriedades de Árvore e Heap.',
+      iconPath: 'M10 4v16m-4-12h4m6 0h4m-10 6h4m6 0h4m-10 6h4m6 0h4',
+      link: '/treap'
     }
   ];
 }

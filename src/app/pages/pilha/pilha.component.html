@@ -46,28 +46,58 @@
       <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
       <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
         <pre><code>
-class Queue &#123;
-  constructor() &#123;
-    this.items = [];
-  &#125;
+#include &lt;stdio.h&gt;
+#define TAM_MAX 10
 
-  enqueue(element) &#123;
-    this.items.push(element);
-  &#125;
+// Estrutura para representar a pilha
+typedef struct &#123;
+    int elementos[TAM_MAX];
+    int topo; // Índice do topo da pilha
+&#125; Pilha;
 
-  dequeue() &#123;
-    if (this.isEmpty()) return null;
-    return this.items.shift();
-  &#125;
+// Função para criar uma nova pilha vazia
+void criar_pilha(Pilha *p) &#123;
+    p-&gt;topo = -1; // Inicializa o topo como -1
+&#125;
 
-  front() &#123;
-    if (this.isEmpty()) return null;
-    return this.items[0];
-  &#125;
+// Função para verificar se a pilha está cheia
+int pilha_cheia(Pilha *p) &#123;
+    return p-&gt;topo == TAM_MAX - 1;
+&#125;
 
-  isEmpty() &#123;
-    return this.items.length === 0;
-  &#125;
+// Função para verificar se a pilha está vazia
+int pilha_vazia(Pilha *p) &#123;
+    return p-&gt;topo == -1;
+&#125;
+
+// Função para adicionar um elemento (push)
+void push(Pilha *p, int valor) &#123;
+    if (pilha_cheia(p)) &#123;
+        printf("Erro: Pilha cheia!\n");
+        return;
+    &#125;
+    p-&gt;topo++;
+    p-&gt;elementos[p-&gt;topo] = valor;
+&#125;
+
+// Função para remover um elemento (pop)
+int pop(Pilha *p) &#123;
+    if (pilha_vazia(p)) &#123;
+        printf("Erro: Pilha vazia!\n");
+        return -1; 
+    &#125;
+    int valor_topo = p-&gt;elementos[p-&gt;topo];
+    p-&gt;topo--;
+    return valor_topo;
+&#125;
+
+// Função para ver o elemento do topo (peek)
+int peek(Pilha *p) &#123;
+    if (pilha_vazia(p)) &#123;
+        printf("Erro: Pilha vazia!\n");
+        return -1; 
+    &#125;
+    return p-&gt;elementos[p-&gt;topo];
 &#125;
         </code></pre>
       </div>
