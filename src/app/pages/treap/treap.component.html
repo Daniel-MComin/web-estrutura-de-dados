@@ -16,21 +16,30 @@
     </div>
 
     <!-- Como Funciona -->
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
     <div class="rounded-lg border border-gray-400 p-6 space-y-4">
       <h2 class="text-2xl font-semibold">O que é uma Treap</h2>
       <p>
-      Uma Treap (Tree + Heap) é uma estrutura de dados que mantém simultaneamente:
+     Uma Treap é uma estrutura de dados que combina as propriedades de uma Árvore Binária de Busca (BST) e um Heap. Cada nó tem um valor (seguindo a propriedade BST) e uma prioridade aleatória (seguindo a propriedade Max-Heap).
       </p>
       <div class="space-y-2">
-        <h3 class="font-semibold">Operações principais:</h3>
+        <h3 class="text-2xl font-semibold">Características:</h3>
         <ul class="list-disc list-inside space-y-1">
-          <li><strong>enqueue()</strong>: Adiciona um elemento no final da fila - O(1)</li>
-          <li><strong>dequeue()</strong>: Remove e retorna o elemento do início - O(n) em JS, O(1) em listas ligadas</li>
-          <li><strong>front()</strong>: Retorna o elemento do início sem removê-lo - O(1)</li>
-          <li><strong>isEmpty()</strong>: Verifica se a fila está vazia - O(1)</li>
+          <li><strong>Valor:</strong> Segue a propriedade de Árvores Binárias de Busca (BST) (esquerda &lt; raiz &lt; direita)</li>
+              <li><strong>Prioridade:</strong> Segue a propriedade de Max-Heap (pai &gt; filhos)</li>
+              <li><strong>Balanceamento:</strong> Prioridades aleatórias garantem balanceamento esperado</li>
+              <li><strong>Operações:</strong> O(log n) esperado para inserção, busca e remoção</li>
         </ul>
       </div>
+      
     </div>
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+      <p class="text-xl pt-2"><strong>Algumas aplicações são:</strong></p>
+      <ul class="text-x1 space-y-1 ml-4">
+        
+      </ul>
+    </div>
+  </div>
 
     <!-- Exemplo de Código -->
     <div class="rounded-lg border border-gray-400 p-6 space-y-4">

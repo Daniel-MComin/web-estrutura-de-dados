@@ -19,12 +19,6 @@ interface EstruturaCard {
 export class CardComponent {
   estruturas: EstruturaCard[] = [
     {
-      name: 'Array',
-      description: 'Arranjo ou vetor, é uma estrutura de dados que armazena uma coleção de valores do mesmo tipo.',
-      iconPath: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
-      link: '/array'
-    },
-    {
       name: 'Lista Encadeada',
       description: 'Sequência de nós, onde cada nó aponta para o próximo.',
       iconPath: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
@@ -47,6 +41,19 @@ export class CardComponent {
       description: 'Combinação das propriedades de Árvore e Heap.',
       iconPath: 'M10 4v16m-4-12h4m6 0h4m-10 6h4m6 0h4m-10 6h4m6 0h4',
       link: '/treap'
-    }
+    },
+    {
+      name: 'Skip-List',
+      description: 'Estrutura probabilistica que organiza elementos em múltiplos níveis.',
+      iconPath: 'M10 4v16m-4-12h4m6 0h4m-10 6h4m6 0h4m-10 6h4m6 0h4',
+      link: '/skiplist'
+    },
+     {
+      name: 'Busca Linear',
+      description: 'Busca sequencial elemento por elemento.',
+      iconPath: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+      link: '/buscalinear'
+    },
+    
   ];
 }
