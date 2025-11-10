@@ -1,0 +1,142 @@
+<div class="min-h-screen bg-gradient-to-br from-background to-muted/20 p-4 md:p-8">
+  <div class="container mx-auto max-w-6xl space-y-8">
+    <div class="flex items-center gap-4">
+      <a routerLink="/" class="inline-flex items-center justify-center h-10 w-10 rounded-md">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7 7-7M3 12h18"/></svg>
+      </a>
+      <div>
+        <h1 class="text-4xl font-bold text-blue-700 ">
+          Lista Ligada (Linked List)
+        </h1>
+        <p class="text-muted-foreground text-lg">Estrutura de dados linear onde cada elemento aponta para o próximo</p>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Como funciona?</h2>
+      <p>Uma lista ligada é composta por nós, onde cada nó contém um valor e uma referência (ponteiro) para o próximo nó. O primeiro nó é chamado de "head".</p>
+      <div class="space-y-2">
+        <h3 class="font-semibold">Operações principais:</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>insertAtBeginning()</strong>: Insere no início - O(1)</li>
+          <li><strong>insertAtEnd()</strong>: Insere no final - O(n)</li>
+          <li><strong>deleteFirst()</strong>: Remove do início - O(1)</li>
+          <li><strong>search()</strong>: Busca um elemento - O(n)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
+      <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
+        <pre class="text-sm"><code>
+class Node &#123;
+  constructor(value) &#123;
+    this.value = value;
+    this.next = null;
+  &#125;
+&#125;
+
+class LinkedList &#123;
+  constructor() &#123;
+    this.head = null;
+  &#125;
+
+  insertAtBeginning(value) &#123;
+    const newNode = new Node(value);
+    newNode.next = this.head;
+    this.head = newNode;
+  &#125;
+
+  insertAtEnd(value) &#123;
+    const newNode = new Node(value);
+    if (!this.head) &#123;
+      this.head = newNode;
+      return;
+    &#125;
+    let current = this.head;
+    while (current.next) &#123;
+      current = current.next;
+    &#125;
+    current.next = newNode;
+  &#125;
+&#125;
+
+// Uso
+const list = new LinkedList();
+list.insertAtEnd(10);
+list.insertAtEnd(20);
+list.insertAtBeginning(5);
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-6">
+      <h2 class="text-2xl font-semibold">Visualização Interativa</h2>
+
+      <div class="flex gap-4 items-center justify-center min-h-[200px] p-6 bg-muted/30 rounded-lg overflow-x-auto">
+        <ng-container *ngIf="getOrderedList().length > 0; else emptyList">
+          <ng-container *ngFor="let node of getOrderedList(); let i = index">
+            <div class="flex items-center gap-2">
+              <div class="text-center min-w-[80px]">
+                <div class="text-2xl font-bold text-[var(--primary)]">{{ node.value }}</div>
+                <div *ngIf="i === 0" class="text-xs text-[var(--blue)] mt-1">HEAD</div>
+              </div>
+
+              <ng-container *ngIf="node.next !== null; else nullTail">
+                <svg class="h-6 w-6 text-[var(--blue)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </ng-container>
+              <ng-template #nullTail>
+                <div class="text-xs text-muted-foreground">→ null</div>
+              </ng-template>
+            </div>
+          </ng-container>
+        </ng-container>
+        <ng-template #emptyList>
+          <p class="text-muted-foreground">Lista vazia - adicione elementos abaixo</p>
+        </ng-template>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="space-y-2">
+          <h3 class="font-semibold">Inserir no Início</h3>
+          <div class="flex gap-2">
+            <input type="number" placeholder="Valor" class="flex h-10 w-full rounded-md border border-gray-400 bg-transparent px-3 py-2 text-sm"
+                   [(ngModel)]="inputValue" (keydown.enter)="insertAtBeginning()"/>
+            <button (click)="insertAtBeginning()" class="px-3 py-2 rounded-md font-semibold text-white bg-[var(--primary)] hover:opacity-90 transition">
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-semibold">Inserir no Final</h3>
+          <div class="flex gap-2">
+            <input type="number" placeholder="Valor" class="flex h-10 w-full rounded-md border border-gray-400 bg-transparent px-3 py-2 text-sm"
+                   [(ngModel)]="inputValue" (keydown.enter)="insertAtEnd()"/>
+            <button (click)="insertAtEnd()" class="px-3 py-2 rounded-md font-semibold text-white bg-[var(--primary)] hover:opacity-90 transition">
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="font-semibold">Remover do Início</h3>
+          <button (click)="deleteFirst()"
+                  class="w-full px-4 py-2 rounded-md font-semibold border border-[var(--blue)] text-[var(--blue)] hover:bg-[var(--blue)] hover:text-white transition"
+                  [disabled]="head === null"
+                  [class.opacity-50]="head === null"
+                  [class.cursor-not-allowed]="head === null">
+            Deletar
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="head !== null" class="p-4 bg-blue-900/20 rounded-lg border border-[var(--blue)]">
+        <p class="text-sm"><strong>Número de nós:</strong> {{ getOrderedList().length }}</p>
+      </div>
+    </div>
+  </div>
+</div>

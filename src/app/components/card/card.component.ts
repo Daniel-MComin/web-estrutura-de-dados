@@ -22,7 +22,7 @@ export class CardComponent {
       name: 'Lista Encadeada',
       description: 'Sequência de nós, onde cada nó aponta para o próximo.',
       iconPath: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6',
-      link: '/lista-encadeada'
+      link: '/listaencadeada'
     },
     {
       name: 'Pilha',
