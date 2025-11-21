@@ -1,0 +1,220 @@
+<div class="min-h-screen p-4 md:p-8">
+  <div class="container mx-auto max-w-6xl space-y-8">
+    <!-- Header -->
+    <div class="flex items-center gap-4">
+      <a
+        routerLink="/"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 w-10"
+      >
+        <!-- Ícone de Seta para Esquerda -->
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          ></path>
+        </svg>
+      </a>
+      <div>
+        <h1 class="text-4xl font-bold text-blue-700 bg-clip-text">
+          Hash - Endereçamento Aberto
+        </h1>
+        <p class="font-bold text-gray-500">
+          Tabela hash utilizando tratamento de colisões sem lista encadeada ou outras estruturas de dados
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+        <h3 class="text-xl font-bold">Características:</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>Objetivo:</strong> Armazenar dados de forma eficiente, permitindo operações de inserção, busca e remoção em tempo médio O(1) (tempo constante).</li>
+          <li><strong>Funcionamento:</strong> Quando ocorre uma colisão, o método procura diretamente na própria tabela uma nova posição vazia para armazenar o dado. Se o local original estiver ocupado, ele segue uma sequência de busca predefinida (sondagem) até encontrar um slot livre.</li>
+          <li><strong>Fator de Carga:</strong> No endereçamento aberto, a tabela deve ser mantida relativamente vazia (fator de carga baixo, geralmente < 0.7) para garantir um bom desempenho, pois a busca por um slot vazio se torna muito demorada quando a tabela está quase cheia.</li>
+        </ul>
+      </div>
+
+      <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+        <p class="text-xl pt-2"><strong>Complexidade: </strong></p>
+        <ul class="text-x1 space-y-1 ml-4 list-disc list-inside space-y-1">
+          <li><strong>Inserir: </strong>O(1)</li>
+          <li><strong>Buscar: </strong>O(1)</li>
+          <li><strong>Remover: </strong>O(1)</li>
+          <li><strong>Pior caso: </strong>O(n) Ocorre se houver um agrupamento massivo, forçando a percorrer toda a tabel aonde (n) é o número de elementos.</li>
+          <li><strong>Vantagens: </strong>Armazena apenas os dados. Mais compacto.</li>
+          <li><strong>Desvantagens: </strong>Possui um fator de carga baixo ,ou seja, deve ter muitos espaços vazios dentro da tabela para alocar elementos de colisões.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
+      <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
+        <pre><code>
+#define TABLE_SIZE 10
+#define EMPTY_SLOT -1
+
+int hashTable[TABLE_SIZE];
+
+void initializeTable() &#123;
+    for (int i = 0; i &lt; TABLE_SIZE; i++) &#123;
+        hashTable[i] = EMPTY_SLOT;
+    &#125;
+&#125;
+
+int hashFunction(int key) &#123;
+    return key % TABLE_SIZE;
+&#125;
+
+// Sondagem Linear: f(i) = i
+void insert(int value) &#123;
+    int index = hashFunction(value);
+    int originalIndex = index;
+
+    for (int i = 0; i &lt; TABLE_SIZE; i++) &#123;
+        if (hashTable[index] == EMPTY_SLOT) &#123;
+            hashTable[index] = value;
+            printf("Inserido: %d no índice %d\n", value, index);
+            return;
+        &#125;
+        index = (originalIndex + i + 1) % TABLE_SIZE;
+        if (index == originalIndex) &#123;
+            printf("Erro: Tabela Hash cheia. Não foi possível inserir %d.\n", value);
+            return;
+        &#125;
+    &#125;
+&#125;
+
+int search(int value) &#123;
+    int index = hashFunction(value);
+    int originalIndex = index;
+
+    for (int i = 0; i &lt; TABLE_SIZE; i++) &#123;
+        if (hashTable[index] == value) &#123;
+            return index;
+        &#125;
+        if (hashTable[index] == EMPTY_SLOT) &#123;
+            return -1;
+        &#125;
+        index = (originalIndex + i + 1) % TABLE_SIZE;
+        if (index == originalIndex) &#123;
+            return -1;
+        &#125;
+    &#125;
+    return -1;
+&#125;
+
+void display() &#123;
+    for (int i = 0; i &lt; TABLE_SIZE; i++) &#123;
+        printf("Índice %d: ", i);
+        if (hashTable[i] == EMPTY_SLOT) &#123;
+            printf("VAZIO\n");
+        &#125; else &#123;
+            printf("%d\n", hashTable[i]);
+        &#125;
+    &#125;
+&#125;
+        </code></pre>
+      </div>
+    </div>
+
+    <!-- Visualização --> 
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-6">
+      <h2 class="text-2xl font-semibold">Visualização Interativa</h2>
+
+      <div class="grid grid-cols-11 gap-2 p-4 bg-gray-200/50 rounded">
+        <div *ngFor="let slot of table; let i = index" class="flex flex-col items-center gap-1">
+          <div class="text-[10px] text-gray-500">{{ i }}</div>
+          <div class="w-12 h-12 flex items-center justify-center rounded text-sm font-bold transition-all"
+               [ngClass]="{
+                 'bg-green-500 text-white scale-110 shadow': highlightedIndex === i,
+                 'bg-gray-100 border-2 border-dashed border-gray-400': slot === null,
+                 'bg-red-200 text-red-700': slot === 'DELETED',
+                 'bg-blue-600 text-white': slot !== null && slot !== 'DELETED' && highlightedIndex !== i
+               }">
+            <ng-container *ngIf="slot === null">-</ng-container>
+            <ng-container *ngIf="slot === 'DELETED'">X</ng-container>
+            <ng-container *ngIf="slot !== null && slot !== 'DELETED'">{{ slot }}</ng-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controles -->
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="space-y-2">
+          <h3 class="font-semibold">Inserir</h3>
+          <div class="flex gap-2">
+            <input type="number" class="flex-1 h-10 rounded border border-gray-400 px-2 text-sm"
+                   placeholder="Valor" [(ngModel)]="inputValue"
+                   (keydown.enter)="insertValue()">
+            <button (click)="insertValue()" class="px-3 py-2 rounded bg-blue-600 text-white text-sm font-semibold">+</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <h3 class="font-semibold">Buscar / Remover</h3>
+          <div class="flex gap-2">
+            <input type="number" class="flex-1 h-10 rounded border border-gray-400 px-2 text-sm"
+                   placeholder="Valor" [(ngModel)]="searchValue"
+                   (keydown.enter)="searchValueFn()">
+            <button (click)="searchValueFn()" class="px-3 py-2 rounded bg-blue-600 text-white text-sm font-semibold">Buscar</button>
+            <button (click)="removeValue()" class="px-3 py-2 rounded bg-red-600 text-white text-sm font-semibold">Remover</button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <h3 class="font-semibold">Limpar</h3>
+          <button (click)="clearTable()" class="w-full h-10 rounded bg-gray-700 text-white text-sm font-semibold">
+            Limpar Tabela
+          </button>
+          <p class="text-xs text-gray-600">
+            Fator de carga: {{ factorUsed() }}/{{ TABLE_SIZE }}
+            ({{ (factorUsed() / TABLE_SIZE * 100) | number:'1.0-1' }}%)
+          </p>
+        </div>
+      </div>
+
+      <div class="p-4 bg-blue-50 rounded border text-xs space-y-1">
+        <p><strong>Hash:</strong> h(k) = k mod {{ TABLE_SIZE }}</p>
+        <p><strong>Sondagem:</strong> (h(k) + i) mod {{ TABLE_SIZE }}</p>
+        <p><strong>Slots ativos:</strong> {{ factorUsed() }}</p>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+      <h3 class="text-xl font-bold">Referências</h3>
+      <p class="text-gray-800">
+        Leia mais sobre busca linear com os materias base para a criação desse
+        projeto:
+      </p>
+      <div class="space-y-1">
+        <div>
+          •
+          <a
+            href="https://www.dio.me/articles/analise-de-algoritmos-tipos-de-busca-busca-linear"
+            target="_blank"
+            class="text-[var(--blue)] hover:underline"
+            >Análise de Algoritmos: Tipos de Busca - Busca Linear (DIO)</a
+          >
+        </div>
+        <div>
+          •
+          <a
+            href="https://www.datacamp.com/pt/tutorial/linear-search-python"
+            target="_blank"
+            class="text-[var(--blue)] hover:underline"
+            >Busca Linear em Python (DataCamp)</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

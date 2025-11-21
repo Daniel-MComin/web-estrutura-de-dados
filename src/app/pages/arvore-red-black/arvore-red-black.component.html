@@ -1,0 +1,253 @@
+    <!-- Visualização -->
+    <div class="min-h-screen p-4 md:p-8">
+  <div class="container mx-auto max-w-6xl space-y-8">
+    <div class="flex items-center gap-4">
+      <a routerLink="/" class="inline-flex items-center justify-center h-10 w-10 rounded-md">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+      </a>
+      <div>
+        <h1 class="text-4xl font-bold text-blue-700">Árvore Red-Black</h1>
+        <p class="text-gray-600 font-medium"> Árvore Binária de Busca que possui a propriedade adicional de ser autobalanceada usando cores para manter equilibrio. (vermelho/preto).</p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="rounded-lg border border-gray-400 p-6 space-y-2">
+        <h3 class="text-xl font-bold">Características</h3>
+        <p>
+          As árvores Red-Black são uma estrutura de dados de árvore binária de busca auto-balanceada. Cada nó na árvore é
+          colorido de vermelho ou preto, e a árvore mantém várias propriedades para garantir que o caminho mais longo da raiz
+          até uma folha não seja mais do que o dobro do caminho mais curto.
+        </p>
+        <p> Isso assegura que as operações de inserção,
+          remoção e busca possam ser realizadas em tempo logarítmico, mantendo a eficiência mesmo em casos de inserções
+          ou remoções desbalanceadas.</p>
+        <p> </p>
+        
+      </div>
+      <div class="rounded-lg border border-gray-400 p-6 space-y-2">
+        <h3 class="text-xl font-bold">Complexidades</h3>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li>Inserção: O(log n)</li>
+          <li>Remoção: O(log n)</li>
+          <li>Busca: O(log n)</li>
+          <li>Altura ≤ 2 * log₂(n+1)</li>
+        </ul>
+        <h3 class="text-xl font-bold">Propriedades</h3>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <li>Cada nó é vermelho ou preto</li>
+          <li>Raiz sempre preta</li>
+          <li>Folhas (null) consideradas pretas</li>
+          <li>Nó vermelho não pode ter filho vermelho</li>
+          <li>Caminhos da raiz a folhas têm mesmo nº de nós pretos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Controles</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <label class="text-sm font-medium">Inserir Valor</label>
+          <div class="flex gap-2">
+            <input type="number" class="flex-1 h-10 rounded-md border border-gray-400 px-2 text-sm"
+                   placeholder="Número" [(ngModel)]="insertValue"
+                   (keydown.enter)="handleInsert()">
+            <button (click)="handleInsert()" class="px-4 py-2 rounded-md bg-blue-600 text-white text-sm font-semibold">
+              Inserir
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <label class="text-sm font-medium">Remover Valor</label>
+          <div class="flex gap-2">
+            <input type="number" class="flex-1 h-10 rounded-md border border-gray-400 px-2 text-sm"
+                   placeholder="Número" [(ngModel)]="deleteValue"
+                   (keydown.enter)="handleDelete()">
+            <button (click)="handleDelete()" class="px-4 py-2 rounded-md bg-red-600 text-white text-sm font-semibold">
+              Remover
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="pt-2 border-t border-gray-300">
+        <h3 class="text-sm font-medium mb-2">Legenda</h3>
+        <div class="flex gap-4 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-red-600 border-2 border-red-600"></span> Vermelho
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-gray-800 border-2 border-gray-800"></span> Preto
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Visualização</h2>
+      <p *ngIf="!tree.root" class="text-sm text-gray-500">Árvore vazia. Insira valores.</p>
+      <div class="overflow-x-auto" *ngIf="tree.root">
+        <svg [attr.width]="svgWidth" [attr.height]="svgHeight" class="mx-auto">
+          <line *ngFor="let e of edges"
+                [attr.x1]="e.x1" [attr.y1]="e.y1"
+                [attr.x2]="e.x2" [attr.y2]="e.y2"
+                stroke="hsl(var(--border, #999))" stroke-width="2"></line>
+
+          <g *ngFor="let pn of nodes">
+            <circle [attr.cx]="pn.x" [attr.cy]="pn.y" r="24"
+                    [ngClass]="pn.node.color === 'RED' ? 'rb-red' : 'rb-black'"></circle>
+            <text [attr.x]="pn.x" [attr.y]="pn.y"
+                  text-anchor="middle" dominant-baseline="middle"
+                  class="fill-white font-bold text-sm">{{ pn.node.value }}</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
+      <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
+        <pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef enum &#123; RED, BLACK &#125; Color;
+
+typedef struct RBNode &#123;
+    int key;
+    Color color;
+    struct RBNode *left, *right, *parent;
+&#125; RBNode;
+
+static RBNode NIL_NODE = &#123;0, BLACK, NULL, NULL, NULL&#125;;
+#define NIL (&amp;NIL_NODE)
+
+RBNode* new_node(int key) &#123;
+    RBNode* n = (RBNode*)malloc(sizeof(RBNode));
+    n-&gt;key = key;
+    n-&gt;color = RED;
+    n-&gt;left = n-&gt;right = n-&gt;parent = NIL;
+    return n;
+&#125;
+
+void rotate_left(RBNode** root, RBNode* x) &#123;
+    RBNode* y = x-&gt;right;
+    x-&gt;right = y-&gt;left;
+    if (y-&gt;left != NIL) y-&gt;left-&gt;parent = x;
+
+    y-&gt;parent = x-&gt;parent;
+    if (x-&gt;parent == NIL) *root = y;
+    else if (x == x-&gt;parent-&gt;left) x-&gt;parent-&gt;left = y;
+    else x-&gt;parent-&gt;right = y;
+
+    y-&gt;left = x;
+    x-&gt;parent = y;
+&#125;
+
+void rotate_right(RBNode** root, RBNode* y) &#123;
+    RBNode* x = y-&gt;left;
+    y-&gt;left = x-&gt;right;
+    if (x-&gt;right != NIL) x-&gt;right-&gt;parent = y;
+
+    x-&gt;parent = y-&gt;parent;
+    if (y-&gt;parent == NIL) *root = x;
+    else if (y == y-&gt;parent-&gt;right) y-&gt;parent-&gt;right = x;
+    else y-&gt;parent-&gt;left = x;
+
+    x-&gt;right = y;
+    y-&gt;parent = x;
+&#125;
+
+void fix_insert(RBNode** root, RBNode* z) &#123;
+    while (z-&gt;parent-&gt;color == RED) &#123;
+        if (z-&gt;parent == z-&gt;parent-&gt;parent-&gt;left) &#123;
+            RBNode* y = z-&gt;parent-&gt;parent-&gt;right;
+            if (y-&gt;color == RED) &#123;
+                z-&gt;parent-&gt;color = BLACK;
+                y-&gt;color = BLACK;
+                z-&gt;parent-&gt;parent-&gt;color = RED;
+                z = z-&gt;parent-&gt;parent;
+            &#125; else &#123;
+                if (z == z-&gt;parent-&gt;right) &#123;
+                    z = z-&gt;parent;
+                    rotate_left(root, z);
+                &#125;
+                z-&gt;parent-&gt;color = BLACK;
+                z-&gt;parent-&gt;parent-&gt;color = RED;
+                rotate_right(root, z-&gt;parent-&gt;parent);
+            &#125;
+        &#125; else &#123;
+            RBNode* y = z-&gt;parent-&gt;parent-&gt;left;
+            if (y-&gt;color == RED) &#123;
+                z-&gt;parent-&gt;color = BLACK;
+                y-&gt;color = BLACK;
+                z-&gt;parent-&gt;parent-&gt;color = RED;
+                z = z-&gt;parent-&gt;parent;
+            &#125; else &#123;
+                if (z == z-&gt;parent-&gt;left) &#123;
+                    z = z-&gt;parent;
+                    rotate_right(root, z);
+                &#125;
+                z-&gt;parent-&gt;color = BLACK;
+                z-&gt;parent-&gt;parent-&gt;color = RED;
+                rotate_left(root, z-&gt;parent-&gt;parent);
+            &#125;
+        &#125;
+    &#125;
+    (*root)-&gt;color = BLACK;
+&#125;
+
+void rb_insert(RBNode** root, int key) &#123;
+    RBNode* z = new_node(key);
+    RBNode* y = NIL;
+    RBNode* x = *root;
+
+    while (x != NIL) &#123;
+        y = x;
+        if (z-&gt;key &lt; x-&gt;key) x = x-&gt;left;
+        else if (z-&gt;key &gt; x-&gt;key) x = x-&gt;right;
+        else &#123; free(z); return; &#125;
+    &#125;
+
+    z-&gt;parent = y;
+    if (y == NIL) *root = z;
+    else if (z-&gt;key &lt; y-&gt;key) y-&gt;left = z;
+    else y-&gt;right = z;
+
+    fix_insert(root, z);
+&#125;
+
+RBNode* rb_search(RBNode* root, int key) &#123;
+    while (root != NIL &amp;&amp; key != root-&gt;key) &#123;
+        root = (key &lt; root-&gt;key) ? root-&gt;left : root-&gt;right;
+    &#125;
+    return root;
+&#125;
+
+void inorder(RBNode* root) &#123;
+    if (root == NIL) return;
+    inorder(root-&gt;left);
+    printf("%d(%c) ", root-&gt;key, root-&gt;color == RED ? 'R' : 'B');
+    inorder(root-&gt;right);
+&#125;
+        </code></pre>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2">
+      <h3 class="text-xl font-bold">Referências</h3>
+      <ul class="list-disc list-inside text-sm">
+        <li><a href="https://en.wikipedia.org/wiki/Red%E2%80%93black_tree" target="_blank" class="text-blue-700 hover:underline">Red-Black Tree - Wikipedia</a></li>
+        <li><a href="https://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/" target="_blank" class="text-blue-700 hover:underline">Intro - GeeksForGeeks</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+    
+ 
+

@@ -37,6 +37,72 @@
       <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
       <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
         <pre><code>
+#define MAX_SIZE 5 
+
+int items[MAX_SIZE];
+int front = -1;
+int rear = -1;
+
+int isFull() &#123;
+    return (front == (rear + 1) % MAX_SIZE);
+&#123;
+
+int isEmpty() &#123;
+    return (front == -1);
+&#123;
+
+void enqueue(int element) &#123;
+    if (isFull()) &#123;
+        printf("ERRO: Fila está cheia. Não é possível adicionar %d.\n", element);
+        return;
+    &#123;
+    
+    if (isEmpty()) &#123;
+        front = 0;
+    &#123;
+    
+    rear = (rear + 1) % MAX_SIZE;
+    
+    items[rear] = element;
+    printf("Enqueue: %d\n", element);
+&#123;
+
+int dequeue() &#123;
+    int element;
+    
+    if (isEmpty()) &#123;
+        printf("ERRO: Fila está vazia. Não é possível remover.\n");
+        return INT_MIN;
+    &#123;
+
+    element = items[front];
+    
+    if (front == rear) &#123;
+        front = -1;
+        rear = -1;
+    &#123; else &#123;
+        front = (front + 1) % MAX_SIZE;
+    &#123;
+    
+    return element;
+&#123;
+
+void display() &#123;
+    if (isEmpty()) &#123;
+        printf("Fila: Vazia\n");
+        return;
+    &#123;
+    
+    printf("Fila (Front -> Rear): ");
+    int i = front;
+    
+    do &#123;
+        printf("%d ", items[i]);
+        i = (i + 1) % MAX_SIZE;
+    &#123; while (i != (rear + 1) % MAX_SIZE);
+    
+    printf("\n");
+&#123;
 
         </code></pre>
       </div>

@@ -19,49 +19,168 @@
     <div class="rounded-lg border border-gray-400 p-6 space-y-4">
       <h2 class="text-2xl font-semibold">Como funciona?</h2>
       <p>
-      Skip List é uma estrutura de dados probabilística baseada em listas ligadas que permite busca, inserção e remoção em tempo O(log n) em média. Funciona como múltiplas listas ligadas ordenadas em diferentes níveis, onde níveis superiores contêm subconjuntos dos elementos dos níveis inferiores.</p>
+      Uma Skip List é construída sobre uma lista encadeada ordenada básica (o nível mais baixo, nível 1 ou nível 0), mas adiciona múltiplas "camadas" de listas encadeadas, formando "atalhos" que permitem "pular" vários elementos de uma vez durante a busca.</p>
+      <p>O processo de busca começa no nível superior e se move horizontalmente até encontrar um nó que seja maior que a chave procurada ou até que o próximo nó seja nulo. Nesse ponto, a busca desce para o nível inferior e continua a varredura horizontal. Isso permite que a busca ignore grandes seções da lista, similarmente a uma busca binária.</p>
     
       <div class="space-y-2">
         <h3 class="font-semibold">Operações principais:</h3>
         <ul class="list-disc list-inside space-y-1">
-          <li><strong>enqueue()</strong>: Adiciona um elemento no final da fila - O(1)</li>
-          <li><strong>dequeue()</strong>: Remove e retorna o elemento do início - O(n)</li>
-          <li><strong>front()</strong>: Retorna o elemento do início sem removê-lo - O(1)</li>
-          <li><strong>isEmpty()</strong>: Verifica se a fila está vazia - O(1)</li>
+          <li><strong>Busca()</strong>: Localiza um elemento (começa em um nivel superiro e desce) - O(log n)</li>
+          <li><strong>Inserção()</strong>: Adiciona novo nó e atrbui um nível aleatório para ele - O(log n)</li>
+          <li><strong>Remoção()</strong>: Remove um nó, removendo também o nó em todods os níveis presentes - O(log n)</li>
         </ul>
       </div>
     </div>
-
-    <div class="rounded-lg border border-gray-400 p-6 space-y-4"></div>
 
     <!-- Exemplo de Código -->
     <div class="rounded-lg border border-gray-400 p-6 space-y-4">
       <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
       <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
         <pre><code>
-class Queue &#123;
-  constructor() &#123;
-    this.items = [];
-  &#125;
+#define MAX_LEVEL 4  
+#define P 0.5        
 
-  enqueue(element) &#123;
-    this.items.push(element);
-  &#125;
+// Estruturas
+typedef struct Node &#123;
+    int key;
+    // Array de ponteiros: 'forward[0]' é o link da lista encadeada base.
+    struct Node *forward[MAX_LEVEL]; 
+&#123; Node;
 
-  dequeue() &#123;
-    if (this.isEmpty()) return null;
-    return this.items.shift();
-  &#125;
+typedef struct SkipList &#123;
+    Node *header;
+    int level;
+&#123; SkipList;
 
-  front() &#123;
-    if (this.isEmpty()) return null;
-    return this.items[0];
-  &#125;
+// Cria um novo nó com a chave e o número de níveis definidos
+Node *createNode(int key, int level) &#123;
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    if (!newNode) exit(EXIT_FAILURE);
+    newNode->key = key;
+    // Inicializa todos os ponteiros do nó com NULL
+    for (int i = 0; i < MAX_LEVEL; i++) &#123;
+        newNode->forward[i] = NULL;
+    &#123;
+    return newNode;
+&#123;
 
-  isEmpty() &#123;
-    return this.items.length === 0;
-  &#125;
-&#125;
+// Inicializa a Skip List com um nó cabeçalho
+SkipList *createSkipList() &#123;
+    SkipList *list = (SkipList *)malloc(sizeof(SkipList));
+    if (!list) exit(EXIT_FAILURE);
+    list->level = 0;
+    // O cabeçalho usa um valor mínimo e o nível máximo
+    list->header = createNode(INT_MIN, MAX_LEVEL); 
+    return list;
+&#123;
+
+// Gera o nível do novo nó com probabilidade P
+int randomLevel() &#123;
+    int lvl = 1;
+    while (rand() < RAND_MAX * P && lvl < MAX_LEVEL) &#123;
+        lvl++;
+    &#123;
+    return lvl;
+&#123;
+
+void insert(SkipList *list, int key) &#123;
+    Node *update[MAX_LEVEL]; 
+    Node *curr = list->header; // Começa no cabeçalho
+
+    // 1. Encontra a posição de inserção em todos os níveis
+    for (int i = list->level; i >= 0; i--) &#123;
+        while (curr->forward[i] != NULL && curr->forward[i]->key < key) &#123;
+            curr = curr->forward[i];
+        &#123;
+        update[i] = curr; // Salva o nó anterior que precisa de atualização
+    &#123;
+
+    curr = curr->forward[0];
+
+    // Se a chave já existe, não insere
+    if (curr != NULL && curr->key == key) &#123;
+        printf("Chave %d já existe.\n", key);
+        return;
+    &#123;
+
+    // 2. Determina o novo nível e atualiza o nível da lista, se necessário
+    int newLevel = randomLevel();
+    if (newLevel > list->level) &#123;
+        for (int i = list->level + 1; i < newLevel; i++) &#123;
+            update[i] = list->header; // Aponta os novos níveis do cabeçalho para si mesmo
+        &#123;
+        list->level = newLevel;
+    &#123;
+
+    // 3. Cria e liga o novo nó nos níveis determinados
+    Node *newNode = createNode(key, newLevel);
+    for (int i = 0; i < newLevel; i++) &#123;
+        newNode->forward[i] = update[i]->forward[i];
+        update[i]->forward[i] = newNode;
+    &#123;
+    printf("Inserido: %d (Nível: %d)\n", key, newLevel);
+&#123;
+
+Node *search(SkipList *list, int key) &#123;
+    Node *curr = list->header;
+
+    // Começa no nível mais alto e desce
+    for (int i = list->level; i >= 0; i--) &#123;
+        while (curr->forward[i] != NULL && curr->forward[i]->key < key) &#123;
+            curr = curr->forward[i];
+        &#123;
+    &#123;
+
+    // Move para o nó seguinte no nível base (nível 0)
+    curr = curr->forward[0];
+
+    // Verifica se a chave foi encontrada
+    if (curr != NULL && curr->key == key) &#123;
+        return curr;
+    &#123;
+    return NULL;
+&#123;
+
+void printList(SkipList *list) &#123;
+    Node *curr = list->header->forward[0];
+    printf("\nLista (Nível 0): ");
+    while (curr != NULL) &#123;
+        printf("%d -> ", curr->key);
+        curr = curr->forward[0];
+    &#123;
+    printf("NULL\n");
+&#123;
+
+int main() &#123;
+    srand(time(0)); 
+
+    SkipList *list = createSkipList();
+
+    insert(list, 10);
+    insert(list, 5);
+    insert(list, 20);
+    insert(list, 1);
+    insert(list, 15);
+    insert(list, 25);
+    
+    printList(list);
+
+    int key1 = 15;
+    int key2 = 12;
+
+    if (search(list, key1)) &#123;
+        printf("Chave %d: ENCONTRADA\n", key1);
+    &#123; else &#123;
+        printf("Chave %d: NÃO ENCONTRADA\n", key1);
+    &#123;
+
+    if (search(list, key2)) &#123;
+        printf("Chave %d: ENCONTRADA\n", key2);
+    &#123; else &#123;
+        printf("Chave %d: NÃO ENCONTRADA\n", key2);
+    &#123;
+    return 0;
+&#123;
         </code></pre>
       </div>
     </div>

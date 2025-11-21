@@ -1,0 +1,251 @@
+<div class="min-h-screen p-4 md:p-8">
+  <div class="container mx-auto max-w-6xl space-y-8">
+    <!-- Header -->
+    <div class="flex items-center gap-4">
+      <a
+        routerLink="/"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 w-10"
+      >
+        <!-- Ícone de Seta para Esquerda -->
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          ></path>
+        </svg>
+      </a>
+      <div>
+        <h1 class="text-4xl font-bold text-blue-700 bg-clip-text">
+          Hash Encadeada
+        </h1>
+        <p class="font-bold text-gray-500">
+          Tabela hash com tratamento de colisões por encadeamento utilizando listas encadeadas.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+        <h3 class="text-xl font-bold">Características:</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>Objetivo:</strong> Armazenar dados de forma eficiente, permitindo operações de inserção, busca e remoção em tempo médio O(1) (tempo constante).</li>
+          <li><strong>Como ocorre colisões?</strong> Ocorre quando a Função Hash calcula o mesmo índice (slot) na tabela para duas chaves diferentes.</li>
+          <li><strong>Como ele soluciona a colisão?</strong> Em vez de armazenar o dado diretamente no slot, cada posição da tabela (array) armazena o cabeçalho (início) de uma Lista Encadeada, onde o elemento vai ser adicionado nessa lista encadeada.</li>
+        </ul>
+      </div>
+
+      <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+        <p class="text-xl pt-2"><strong>Complexidade: </strong></p>
+        <ul class="text-x1 space-y-1 ml-4 list-disc list-inside space-y-1">
+          <li><strong>Inserir: </strong>O(1)</li>
+          <li><strong>Buscar: </strong>O(1)</li>
+          <li><strong>Remover: </strong>O(1)</li>
+          <li><strong>Pior caso: </strong>O(n) se todas as chaves forem para um único slot.</li>
+          <li><strong>Vantagens: </strong>Simples de implementar e evita que a tabela "encha", pois novos elementos podem sempre ser adicionados à lista.</li>
+          <li><strong>Desvantagens: </strong>Se a função hash for ruim, as listas podem ficar muito longas, degradando o tempo de busca para $O(n)$ (tempo linear no pior caso).</li>
+          
+        </ul>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
+      <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
+        <pre><code>
+  typedef struct Node &#123;
+  int data;
+  struct Node* next;
+&#125; Node;
+
+#define TABLE_SIZE 10
+Node* hashTable[TABLE_SIZE];
+
+int hashFunction(int key) &#123;
+    return key % TABLE_SIZE;
+&#125;
+
+void insert(int value) &#123;
+    int index = hashFunction(value);
+
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) &#123;
+        printf("Erro de alocação de memória.\n");
+        return;
+    &#125;
+    newNode-&gt;data = value;
+
+    newNode-&gt;next = hashTable[index];
+    hashTable[index] = newNode;
+    
+    printf("Inserido: %d no índice %d\n", value, index);
+&#125;
+
+int search(int value) &#123;
+    int index = hashFunction(value);
+
+    Node* current = hashTable[index];
+    
+    while (current != NULL) &#123;
+        if (current-&gt;data == value) &#123;
+            return 1;
+        &#125;
+        current = current-&gt;next;
+    &#125;
+    
+    return 0;
+&#125;
+
+void display() &#123;
+    printf("\n--- Conteúdo da Tabela Hash (Encadeamento) ---\n");
+    for (int i = 0; i &lt; TABLE_SIZE; i++) &#123;
+        printf("Índice %d: ", i);
+        Node* current = hashTable[i];
+        while (current != NULL) &#123;
+            printf("%d -&gt; ", current-&gt;data);
+            current = current-&gt;next;
+        &#125;
+        printf("NULL\n");
+    &#125;
+&#125;
+
+int main() &#123;
+    for (int i = 0; i &lt; TABLE_SIZE; i++) &#123;
+        hashTable[i] = NULL;
+    &#125;
+
+    insert(15);
+    insert(25);
+    insert(7);
+    insert(100);
+    insert(10);
+
+    display();
+
+    if (search(25)) &#123;
+        printf("Busca: 25 ENCONTRADO\n");
+    &#125; else &#123;
+        printf("Busca: 25 NÃO ENCONTRADO\n");
+    &#125;
+
+    if (search(99)) &#123;
+        printf("Busca: 99 ENCONTRADO\n");
+    &#125; else &#123;
+        printf("Busca: 99 NÃO ENCONTRADO\n");
+    &#125;
+
+    return 0;
+&#125;
+        </code></pre>
+      </div>
+    </div>
+
+    <!-- Visualização --> 
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-6">
+      <h2 class="text-2xl font-semibold">Visualização Interativa</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Inserir -->
+        <div class="space-y-3">
+          <h3 class="font-semibold">Inserir / Atualizar</h3>
+          <input class="w-full h-10 rounded-md border border-gray-400 px-3 text-sm"
+                 placeholder="Chave (ex: nome)" [(ngModel)]="keyInput"
+                 (keydown.enter)="valueInput && insert()">
+          <input class="w-full h-10 rounded-md border border-gray-400 px-3 text-sm"
+                 placeholder="Valor (ex: João)" [(ngModel)]="valueInput"
+                 (keydown.enter)="keyInput && insert()">
+          <button (click)="insert()"
+                  class="w-full px-4 py-2 rounded-md font-semibold bg-blue-600 text-white hover:opacity-90">
+            Inserir
+          </button>
+        </div>
+
+        <!-- Buscar -->
+        <div class="space-y-3">
+          <h3 class="font-semibold">Buscar</h3>
+          <input class="w-full h-10 rounded-md border border-gray-400 px-3 text-sm"
+                 placeholder="Chave para buscar" [(ngModel)]="searchKey"
+                 (keydown.enter)="search()">
+          <button (click)="search()"
+                  class="w-full px-4 py-2 rounded-md font-semibold border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
+            Buscar
+          </button>
+          <div *ngIf="searchKey" class="text-sm">
+            Resultado:
+            <span *ngIf="lastSearchResult; else notFound" class="text-green-600 font-medium">
+              {{ lastSearchResult }}
+            </span>
+            <ng-template #notFound><span class="text-red-600 font-medium">não encontrado</span></ng-template>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buckets -->
+      <div class="space-y-2 p-4 bg-gray-200/50 rounded-lg max-h-[400px] overflow-y-auto">
+        <div *ngFor="let bucket of table; let i = index" class="flex items-start gap-4 p-3 bg-white rounded border">
+          <div class="font-mono text-sm text-gray-500 min-w-[60px]">[{{ i }}]:</div>
+          <div class="flex-1">
+            <ng-container *ngIf="bucket; else vazio">
+              <div class="space-y-2">
+                <div *ngFor="let entry of bucket; let k = index"
+                     class="flex justify-between items-center px-2 py-1 rounded border border-gray-300 bg-gray-50">
+                  <span class="text-sm">
+                    <strong class="text-blue-700">{{ entry.key }}</strong>: {{ entry.value }}
+                  </span>
+                  <button (click)="remove(entry.key)"
+                          class="text-red-600 hover:text-red-800 text-xs font-semibold">
+                    Remover
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #vazio>
+              <span class="text-gray-400 text-sm">vazio</span>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 bg-blue-50 rounded-lg border border-blue-200 text-sm">
+        <p><strong>Função Hash:</strong> (soma códigos ASCII) % {{ table.length }}</p>
+        <p>Tamanho da tabela: {{ table.length }} buckets</p>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+      <h3 class="text-xl font-bold">Referências</h3>
+      <p class="text-gray-800">
+        Leia mais sobre busca linear com os materias base para a criação desse
+        projeto:
+      </p>
+      <div class="space-y-1">
+        <div>
+          •
+          <a
+            href="https://www.dio.me/articles/analise-de-algoritmos-tipos-de-busca-busca-linear"
+            target="_blank"
+            class="text-[var(--blue)] hover:underline"
+            >Análise de Algoritmos: Tipos de Busca - Busca Linear (DIO)</a
+          >
+        </div>
+        <div>
+          •
+          <a
+            href="https://www.datacamp.com/pt/tutorial/linear-search-python"
+            target="_blank"
+            class="text-[var(--blue)] hover:underline"
+            >Busca Linear em Python (DataCamp)</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

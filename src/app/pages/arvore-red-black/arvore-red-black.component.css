@@ -1,0 +1,15 @@
+.rb-red {
+  fill: #dc2626;
+  stroke: #dc2626;
+  stroke-width: 3;
+  transition: transform .25s;
+}
+.rb-black {
+  fill: #1f2937;
+  stroke: #1f2937;
+  stroke-width: 3;
+  transition: transform .25s;
+}
+svg g:hover circle {
+  transform: scale(1.08);
+}

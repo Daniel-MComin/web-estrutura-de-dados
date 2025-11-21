@@ -24,11 +24,10 @@
       </a>
       <div>
         <h1 class="text-4xl font-bold text-blue-700 bg-clip-text">
-          Busca Linear (Linear Search)
+          Árvore AVL (AVL Tree)
         </h1>
         <p class="font-bold text-gray-500">
-          Algoritmo de busca que percorre o array sequencialmente comparando
-          cada elemento com o alvo
+          Árvore Binária de Busca que possui a propriedade adicional de ser autobalanceada.
         </p>
       </div>
     </div>
@@ -72,120 +71,16 @@
       <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
       <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
         <pre><code>
- int search(int arr[], int size, int key) &#123;
-    for (int i = 0; i &lt; size; i++) &#123;
-        if (arr[i] == key) &#123;
-            return i;
-        &#125;
-    &#125;
-    return -1;
-&#125;
-
-int main() &#123;
-    int data[] = &#123;10, 20, 30, 40&#125;;
-    int key = 30;
-    int n = 4;
-
-    int index = search(data, n, key);
-
-    if (index != -1) &#123;
-        printf("Encontrado no indice: %d\n", index);
-    &#125; else &#123;
-        printf("Nao encontrado.\n");
-    &#125;
-
-    return 0;
-&#125;
+ 
         </code></pre>
       </div>
     </div>
 
     <!-- Visualização -->
-    <div class="rounded-lg border border-gray-400 p-6 space-y-6">
-      <h2 class="text-2xl font-semibold">Visualização Interativa</h2>
 
-      <div
-        class="flex flex-wrap gap-2 justify-center p-6 bg-gray-200/50 rounded-lg"
-      >
-        <div
-          *ngFor="let value of array; let i = index"
-          class="w-16 h-16 flex items-center justify-center rounded-lg font-bold text-lg transition-all duration-300"
-          [ngClass]="{
-            'bg-green-500 text-white scale-110 shadow-lg': i === foundIndex,
-            'bg-yellow-500 text-white scale-110 shadow-lg':
-              i === currentIndex && i !== foundIndex,
-            'bg-gray-200 text-[var(--primary)]':
-              i !== currentIndex && i !== foundIndex
-          }"
-        >
-          {{ value }}
-        </div>
-      </div>
+    
 
-      <div class="space-y-4">
-        <div class="flex gap-2">
-          <input
-            type="number"
-            placeholder="Digite o valor a buscar"
-            class="flex h-10 w-full rounded-md border border-gray-400 bg-transparent px-3 py-2 text-sm"
-            [(ngModel)]="searchValue"
-            (keydown.enter)="!isSearching && handleSearch()"
-            [disabled]="isSearching"
-          />
-          <button
-            (click)="handleSearch()"
-            class="px-4 py-2 rounded-md font-semibold bg-[var(--primary)] text-white hover:opacity-90 transition"
-            [disabled]="isSearching"
-          >
-            <span class="inline-flex items-center gap-2">
-              <svg
-                class="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M21 21l-4.35-4.35M10 18a8 8 0 110-16 8 8 0 010 16z"
-                />
-              </svg>
-              Buscar
-            </span>
-          </button>
-          <button
-            (click)="resetSearch()"
-            class="px-4 py-2 rounded-md font-semibold border border-gray-400 hover:bg-gray-100 transition"
-            [disabled]="isSearching"
-          >
-            Resetar
-          </button>
-        </div>
-
-        <div
-          *ngIf="currentIndex !== null"
-          class="p-4 bg-yellow-500/10 rounded-lg border border-yellow-500"
-        >
-          <p class="text-sm">
-            <strong>Comparando:</strong> Índice {{ currentIndex }} (valor:
-            {{ array[currentIndex] }})
-          </p>
-        </div>
-
-        <div
-          *ngIf="foundIndex !== null"
-          class="p-4 bg-green-500/10 rounded-lg border border-green-500"
-        >
-          <p class="text-sm">
-            <strong>Encontrado!</strong> O valor está no índice {{ foundIndex }}
-          </p>
-          <p class="text-sm mt-1">
-            <strong>Comparações realizadas:</strong> {{ foundIndex + 1 }}
-          </p>
-        </div>
-      </div>
-    </div>
+    
 
     <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
       <h3 class="text-xl font-bold">Referências</h3>
@@ -216,3 +111,4 @@ int main() &#123;
     </div>
   </div>
 </div>
+ 

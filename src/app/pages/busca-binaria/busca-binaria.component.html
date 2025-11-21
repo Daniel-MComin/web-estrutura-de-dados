@@ -1,0 +1,203 @@
+<div class="min-h-screen p-4 md:p-8">
+  <div class="container mx-auto max-w-6xl space-y-8">
+    <!-- Header -->
+    <div class="flex items-center gap-4">
+      <a
+        routerLink="/"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium h-10 w-10"
+      >
+        <!-- Ícone de Seta para Esquerda -->
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          ></path>
+        </svg>
+      </a>
+      <div>
+        <h1 class="text-4xl font-bold text-blue-700 bg-clip-text">
+          Busca Binária (Binary Search)
+        </h1>
+        <p class="font-bold text-gray-500">
+          Algoritmo de busca que percorre um array ordenado dividindo ele ao meio a cada iteração
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+        <h3 class="text-xl font-bold">Características:</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>Complexidade Média:</strong> O(log n)</li>
+          <li><strong>Pré-requisito:</strong> Array deve estar ordenado</li>
+          <li><strong>Vantagem:</strong> Mais rápida que a busca linear em arrays grandes</li>
+          <li><strong>Desvantagem:</strong> Arrays pequenos ou não ordenados</li>
+          <li>
+          <strong>Melhor Caso - O(1)</strong> Ocorre quando o elemento está exatamente no meio do vetor
+          </li>
+           <li>
+          <strong>Pior Caso - O(log n)</strong> Ocorre quando o elemento está em uma extremidade
+          </li>
+        </ul>
+      </div>
+
+      <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+        <p class="text-xl pt-2"><strong>Como funciona?</strong></p>
+        <p>A Busca Binária divide o array ao meio repetidamente, comparando o elemento do meio com o valor procurado. Se o valor é menor, busca na metade esquerda; se maior, na metade direita. É muito mais eficiente que a busca linear.</p>
+
+        <p>Se o elemento procurado for menor, busca na metade esquerda</p>
+
+        <p>Se o elemento procurado for maior, busca na metade direita</p>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-4">
+      <h2 class="text-2xl font-semibold">Exemplo de Código</h2>
+      <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
+        <pre><code>
+int binarySearch(int arr[], int size, int key) &#123;
+    int low = 0;
+    int high = size - 1;
+
+    while (low <= high) &#123;
+        int mid = low + (high - low) / 2; 
+
+        if (arr[mid] == key) &#123;
+            return mid;
+        &#125;
+
+        if (arr[mid] < key) &#123;
+            low = mid + 1;
+        &#125;
+        
+        else &#123;
+            high = mid - 1;
+        &#125;
+    &#125;
+
+    return -1;
+&#125;
+
+int main() &#123;
+    int data[] = &#123;2, 5, 8, 12, 16, 23, 38, 56, 72, 91&#125;;
+    int n = sizeof(data) / sizeof(data[0]);
+    int target = 23;
+
+    int index = binarySearch(data, n, target);
+
+    if (index != -1) &#123;
+        printf("Elemento %d encontrado no índice %d.\n", target, index);
+    &#125; else &#123;
+        printf("Elemento %d não está presente no array.\n", target);
+    &#125;
+    
+    target = 40;
+    index = binarySearch(data, n, target);
+    if (index != -1) &#123;
+        printf("Elemento %d encontrado no índice %d.\n", target, index);
+    &#123; else &#125;
+        printf("Elemento %d não está presente no array.\n", target);
+    &#125;
+
+    return 0;
+&#125;
+        </code></pre>
+      </div>
+    </div>
+
+    <!-- Visualização -->
+    <div class="rounded-lg border border-gray-400 p-6 space-y-6">
+      <h2 class="text-2xl font-semibold">Visualização Interativa</h2>
+
+      <div class="flex flex-wrap gap-2 justify-center p-6 bg-gray-200/50 rounded-lg">
+        <div *ngFor="let value of array; let i = index" class="relative">
+          <div
+            class="w-16 h-16 flex items-center justify-center rounded-lg font-bold text-lg transition-all duration-300"
+            [ngClass]="{
+              'bg-green-500 text-white scale-110 shadow-lg': i === foundIndex,
+              'bg-blue-500 text-white scale-110 shadow-lg': i === mid && i !== foundIndex,
+              'bg-yellow-500/50 text-white': i === left || i === right,
+              'bg-blue-900/10 text-blue-700': i !== mid && i !== foundIndex && i !== left && i !== right
+            }">
+            {{ value }}
+          </div>
+          <div *ngIf="i === left" class="text-xs text-center mt-1 text-yellow-700 font-semibold">L</div>
+          <div *ngIf="i === right" class="text-xs text-center mt-1 text-yellow-700 font-semibold">R</div>
+          <div *ngIf="i === mid" class="text-xs text-center mt-1 text-blue-600 font-semibold">MID</div>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex gap-2">
+          <input
+            type="number"
+            placeholder="Valor a buscar"
+            class="flex h-10 w-full rounded-md border border-gray-400 bg-transparent px-3 py-2 text-sm"
+            [(ngModel)]="searchValue"
+            (keydown.enter)="!isSearching && handleSearch()"
+            [disabled]="isSearching" />
+          <button
+            (click)="handleSearch()"
+            class="px-4 py-2 rounded-md font-semibold bg-blue-600 text-white hover:opacity-90 transition"
+            [disabled]="isSearching">
+            Buscar
+          </button>
+          <button
+            (click)="resetSearch()"
+            class="px-4 py-2 rounded-md font-semibold border border-gray-400 hover:bg-gray-100 transition"
+            [disabled]="isSearching">
+            Resetar
+          </button>
+        </div>
+
+        <div *ngIf="mid !== null && foundIndex === null" class="p-4 bg-blue-500/10 rounded-lg border border-blue-500">
+          <p class="text-sm"><strong>Comparando:</strong> índice {{ mid }} (valor {{ array[mid] }})</p>
+          <p class="text-sm"><strong>Intervalo:</strong> [{{ left }}, {{ right }}]</p>
+          <p class="text-sm"><strong>Comparações:</strong> {{ comparisons }}</p>
+        </div>
+
+        <div *ngIf="foundIndex !== null" class="p-4 bg-green-500/10 rounded-lg border border-green-500">
+          <p class="text-sm"><strong>Encontrado:</strong> índice {{ foundIndex }} (valor {{ array[foundIndex] }})</p>
+          <p class="text-sm mt-1"><strong>Total de comparações:</strong> {{ comparisons }} (vs {{ array.length }} na busca linear)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+      <h3 class="text-xl font-bold">Referências</h3>
+      <p class="text-gray-800">
+        Leia mais sobre busca linear com os materias base para a criação desse
+        projeto:
+      </p>
+      <div class="space-y-1">
+        <div>
+          •
+          <a
+            href="https://www.geeksforgeeks.org/binary-search/"
+            target="_blank"
+            class="text-[var(--blue)] hover:underline"
+            >Análise de Algoritmos: Tipos de Busca - Busca Binária (GeeksForGeeks)</a
+          >
+        </div>
+        <div>
+          •
+          <a
+            href="https://www.datacamp.com/pt/tutorial/linear-search-python"
+            target="_blank"
+            class="text-[var(--blue)] hover:underline"
+            >Busca Linear em Python (DataCamp)</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
