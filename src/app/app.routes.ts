@@ -16,7 +16,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'pilha', component: PilhaComponent },
   { path: 'fila', component: FilaComponent },
- // { path: 'treap', component: TreapComponent },
+  { path: 'treap', component: TreapComponent },
   { path: 'skiplist', component: SkiplistComponent },
   { path: 'busca-linear', component: BuscaLinearComponent },
   { path: 'lista-encadeada', component: ListaEncadeadaComponent },

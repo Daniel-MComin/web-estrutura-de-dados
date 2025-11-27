@@ -1,0 +1,99 @@
+<div class="rounded-lg border border-gray-400 p-4 md:p-6 space-y-6">
+  <!-- Controles responsivos -->
+  <div class="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:items-end">
+    <div class="space-y-1 w-full sm:w-auto">
+      <label class="text-sm font-medium">Inserir</label>
+      <div class="flex gap-2">
+        <input type="number"
+               [(ngModel)]="insertValue"
+               (keydown.enter)="handleInsert()"
+               class="h-10 px-3 rounded border border-gray-400 text-sm w-full sm:w-40"
+               placeholder="Valor">
+        <button (click)="handleInsert()"
+                class="px-3 py-2 rounded bg-blue-600 text-white text-sm font-semibold w-full sm:w-auto">
+          Inserir
+        </button>
+      </div>
+    </div>
+
+    <div class="space-y-1 w-full sm:w-auto">
+      <label class="text-sm font-medium">Remover</label>
+      <div class="flex gap-2">
+        <input type="number"
+               [(ngModel)]="deleteValue"
+               (keydown.enter)="handleDelete()"
+               class="h-10 px-3 rounded border border-gray-400 text-sm w-full sm:w-40"
+               placeholder="Valor">
+        <button (click)="handleDelete()"
+                class="px-3 py-2 rounded bg-red-600 text-white text-sm font-semibold w-full sm:w-auto">
+          Remover
+        </button>
+      </div>
+    </div>
+
+    <div class="space-y-1 w-full sm:w-auto">
+      <label class="text-sm font-medium">Buscar</label>
+      <div class="flex gap-2">
+        <input type="number"
+               [(ngModel)]="searchValue"
+               (keydown.enter)="handleSearch()"
+               class="h-10 px-3 rounded border border-gray-400 text-sm w-full sm:w-40"
+               placeholder="Valor">
+        <button (click)="handleSearch()"
+                class="px-3 py-2 rounded bg-gray-700 text-white text-sm font-semibold w-full sm:w-auto">
+          Buscar
+        </button>
+      </div>
+    </div>
+
+    <div class="sm:ml-auto w-full sm:w-auto">
+      <button (click)="clear()"
+              class="px-3 py-2 rounded bg-gray-200 text-gray-800 text-sm font-semibold w-full sm:w-auto">
+        Limpar
+      </button>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-3 text-xs text-gray-600">
+    <span class="inline-flex items-center gap-2">
+      <span class="inline-block w-3 h-3 rounded-full bg-[#2563eb] ring-2 ring-[#1e40af]"></span>
+      Prioridade alta (p ≥ 50)
+    </span>
+    <span class="inline-flex items-center gap-2">
+      <span class="inline-block w-3 h-3 rounded-full bg-[#10b981] ring-2 ring-[#047857]"></span>
+      Prioridade baixa (p < 50)
+    </span>
+    <span class="inline-flex items-center gap-2">
+      <span class="inline-block w-3 h-3 rounded-full bg-transparent ring-2 ring-[#f59e0b]"></span>
+       Nó destacado (resultado da busca)
+    </span>
+  </div>
+
+  <!-- Visualização dinâmica -->
+  <div class="overflow-x-auto">
+    <svg [attr.width]="svgW" [attr.height]="svgH" class="mx-auto block">
+      <line *ngFor="let e of edges"
+            [attr.x1]="e.x1" [attr.y1]="e.y1"
+            [attr.x2]="e.x2" [attr.y2]="e.y2"
+            stroke="#9ca3af" stroke-width="2" opacity="0.8"></line>
+
+      <g *ngFor="let n of nodes" class="treap-node">
+  <circle [attr.cx]="n.x" [attr.cy]="n.y" r="32"
+          [ngClass]="(n.pr >= 50 ? 'node-high' : 'node-low')"></circle>
+  <circle *ngIf="n.highlight"
+          [attr.cx]="n.x" [attr.cy]="n.y" r="36"
+          class="node-hl-border"></circle>
+  <text [attr.x]="n.x" [attr.y]="n.y - 2" text-anchor="middle"
+        dominant-baseline="middle" class="fill-white font-bold text-sm">
+    {{ n.key }}
+  </text>
+  <text [attr.x]="n.x" [attr.y]="n.y + 14" text-anchor="middle"
+        class="fill-white text-[10px]">p={{ n.pr }}</text>
+</g>
+    </svg>
+  </div>
+
+  <div class="text-xs text-gray-500">
+    Dica: prioridade aleatória (0–99). Destaque mostra resultado da busca.
+  </div>
+</div>

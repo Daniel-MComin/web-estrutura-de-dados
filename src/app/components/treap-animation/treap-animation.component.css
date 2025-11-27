@@ -1,0 +1,47 @@
+.treap-node circle {
+  transition: transform .25s ease, fill .25s ease, stroke .25s ease;
+  stroke-width: 3;
+}
+.node-high {
+  fill: #2563eb;    /* azul: prioridade alta (p ≥ 50) */
+  stroke: #1e40af;
+}
+.node-low {
+  fill: #10b981;    /* verde: prioridade baixa (p < 50) */
+  stroke: #047857;
+}
+.node-hl {
+  fill: #f59e0b;    /* laranja: nó destacado (busca) */
+  stroke: #b45309;
+}
+.node-hl-border {
+  fill: transparent;
+  stroke: #f59e0b;  /* borda extra ao encontrar */
+  stroke-width: 4;
+  opacity: 0.95;
+  transition: stroke-width .2s ease, opacity .2s ease;
+}
+
+.treap-node circle {
+  transition: transform .25s ease, fill .25s ease, stroke .25s ease;
+  stroke-width: 3;
+}
+.node-high {
+  fill: #2563eb;    
+  stroke: #1e40af;
+}
+.node-low {
+  fill: #10b981;    
+  stroke: #047857;
+}
+.node-hl {
+  fill: #f59e0b;    
+  stroke: #b45309;
+}
+.node-hl-border {
+  fill: transparent;
+  stroke: #f59e0b; 
+  stroke-width: 4;
+  opacity: 0.95;
+  transition: stroke-width .2s ease, opacity .2s ease;
+}

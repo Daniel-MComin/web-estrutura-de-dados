@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterModule } from "@angular/router";
-import { PilhaComponent } from '../../pages/pilha/pilha.component';
 
 interface EstruturaCard {
   name: string;
