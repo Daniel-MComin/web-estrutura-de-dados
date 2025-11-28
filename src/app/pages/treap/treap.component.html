@@ -23,7 +23,7 @@
       </a>
       <div>
         <h1 class="text-4xl font-bold text-blue-700 mb-2">
-          Treap (Árvore + Heap)
+          Treap (Binary Tree + Heap)
         </h1>
         <p class="font-bold text-gray-500">
           Estrutura de dados que combina as propriedades de uma Árvore de Busca
@@ -40,8 +40,9 @@
           Uma Treap é uma estrutura de dados que combina as propriedades de uma
           Árvore Binária de Busca (BST) e um Heap. Cada nó tem um valor
           (seguindo a propriedade BST) e uma prioridade aleatória (seguindo a
-          propriedade Max-Heap).
+          propriedade Max-Heap). 
         </p>
+        <p>As Treaps, introduzem um mecanismo probabilístico de balanceamento, atribuindo prioridades aleatórias aos nós de forma a garantir que, com alta probabilidade, a árvore permanecerá aproximadamente balanceada.</p>
         <p>
           Formalmente, um Treap é definido como uma árvore binária na qual cada
           nó contém:
@@ -66,10 +67,44 @@
       </div>
       <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
         <p class="text-xl pt-2"><strong>Algumas aplicações são:</strong></p>
-        <ul class="text-x1 space-y-1 ml-4"></ul>
-      </div>
-
-      <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
+        <ul class="space-y-3 text-gray-600">
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 font-bold">1.</span>
+            <span><strong class="text-gray-900">Dicionários dinâmicos:</strong> Inserção, busca e remoção eficientes</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 font-bold">2.</span>
+            <span><strong class="text-gray-900">Consultas de range:</strong> Facilita operações em intervalos usando split/merge</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 font-bold">3.</span>
+            <span><strong class="text-gray-900">Algoritmos geométricos:</strong> Problemas de geometria computacional</span>
+          </li>
+          
+           <li class="flex items-start gap-3">
+            <span class="text-blue-500 font-bold">4.</span>
+            <span><strong class="text-gray-900">Armazenamento Key-Value:</strong> Backend de persistência leve em Go (gkvlite) usado em infraestrutura de build</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 font-bold">5.</span>
+            <span><strong class="text-gray-900">Editores de Texto:</strong> Manipulação de arquivos gigantes (GBs) via Treaps Implícitas (Ropes) para cortes/colagens instantâneos</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 font-bold">6.</span>
+            <span><strong class="text-gray-900">Jogos Multiplayer (MMO):</strong> Leaderboards e rankings em tempo real com inserção/remoção rápida</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 font-bold">7.</span>
+            <span><strong class="text-gray-900">Alocadores de Memória:</strong> Gerenciamento de blocos livres (best fit) em sistemas embarcados</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-blue-500 font-bold">8.</span>
+            <span><strong class="text-gray-900">Segurança Criptográfica:</strong> Autenticação de dicionários dinâmicos; aleatoriedade dificulta ataques de timing</span>
+          </li>
+        </ul>
+      </div>      
+    </div>
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
         <div class="space-y-2">
           <h3 class="text-2xl font-semibold">Características:</h3>
           <ul class="list-disc list-inside space-y-1">
@@ -92,7 +127,6 @@
           </ul>
         </div>
       </div>
-    </div>
 
     <section class="py-8">
       <div class="text-center mb-8 space-y-2">
@@ -136,10 +170,35 @@
       </div>
     </section>
 
+    <div class="rounded-lg border border-gray-400 p-6 space-y-2">
+  <h2 class="text-2xl font-bold text-blue-700">Por que Treaps Simplificam a Implementação?</h2>
+  <div class="space-y-3 text-gray-700">
+    <p>A implementação de Treaps é notavelmente curta e limpa em comparação com AVL ou Red-Black Trees porque:</p>
+    <ul class="list-disc list-inside space-y-1">
+      <li>Não existem fatores de balanceamento ou cores para gerenciar.</li>
+      <li>Não há casos especiais complexos.</li>
+      <li>A invariância do heap é mantida naturalmente pelas rotações.</li>
+      <li>Operações de split e merge são diretas, sem necessidade de manipulação extensa de invariantes.</li>
+      <li>Todo o balanceamento é delegado à aleatoriedade, garantindo forma estatisticamente balanceada.</li>
+    </ul>
+  </div>
+
+  <div class="space-y-2">
+    <h3 class="text-xl font-semibold">Treaps são particularmente populares em:</h3>
+    <ul class="list-disc list-inside space-y-1">
+      <li>Algoritmos competitivos.</li>
+      <li>Sistemas in-memory.</li>
+      <li>Implementações customizadas de ordered maps.</li>
+      <li>Estruturas de listas implícitas (Treap Implícito).</li>
+      <li>Engines de indexação de alta performance.</li>
+    </ul>
+  </div>
+</div>
+
     <!-- Exemplo de Código -->
     <div class="rounded-lg border border-gray-400 p-6 space-y-4">
       <h2 class="text-2xl font-bold text-blue-700">Implementação em C</h2>
-      <p class="text-gray-600">Código completo com geração aleatória de prioridades e rotações.</p>
+      <p class="text-gray-500">Código completo com geração aleatória de prioridades e rotações.</p>
 
       <div class="bg-gray-800 text-white rounded-md p-4 overflow-x-auto">
         <pre class="text-sm font-mono"><code>{{ cCode }}</code></pre>
@@ -161,6 +220,26 @@
             <span><strong class="text-gray-900">Inserção:</strong> Insere como BST e depois rotaciona baseado nas prioridades.</span>
           </li>
         </ul>
+
+       <h4 class="text-lg font-bold text-blue-700 mt-4">Funções (explicação):</h4>
+      <ul class="space-y-3 text-gray-700">
+        <li class="flex gap-3">
+          <p class="font-bold text-blue-600">createNode:</p>
+          <p>Aloca e inicializa um novo nó com <code>key</code>, gera <code>priority = rand() % 100</code> e define ponteiros <code>left</code>/<code>right</code> como <code>NULL</code>.</p>
+        </li>
+        <li class="flex gap-3">
+          <p class="font-bold text-blue-600">rotateRight:</p>
+          <p>Realiza rotação à direita: promove <code>y-&gt;left</code> (x) para cima e move a subárvore direita de x para a esquerda de y, preservando a ordem BST e ajudando a manter a propriedade de heap.</p>
+        </li>
+        <li class="flex gap-3">
+          <p class="font-bold text-blue-600">rotateLeft:</p>
+          <p>Rotação à esquerda: promove <code>x-&gt;right</code> (y) para cima e move a subárvore esquerda de y para a direita de x, simétrica à rotação à direita.</p>
+        </li>
+        <li class="flex gap-3">
+          <p class="font-bold text-blue-600">insert:</p>
+          <p>Insere como BST (esquerda se menor, direita se maior). Após inserir, compara prioridades e executa rotações (<code>rotateRight</code>/<code>rotateLeft</code>) quando a prioridade do filho ultrapassa a do pai, mantendo o heap.</p>
+        </li>
+      </ul>
       </div>
     </div>
 
@@ -237,32 +316,27 @@
   </div>
 </section>
 
-    
+  
 
     <div class="rounded-lg border border-gray-400 p-6 space-y-2 font-sans">
       <h3 class="text-xl font-bold">Referências</h3>
       <p class="text-gray-800">
-        Leia mais sobre filas com os materias base para a criação desse projeto:
+        Leia mais sobre Treaps com os materias base para a criação desse projeto:
       </p>
       <div class="space-y-1">
-        <div>
-          •
-          <a
-            href="https://www.dio.me/articles/direto-ao-ponto-50-as-filas"
-            target="_blank"
-            class="text-[var(--blue)] hover:underline"
-            >Direto ao ponto com Filas (dio)</a
-          >
-        </div>
-        <div>
-          •
-          <a
-            href="https://www.treinaweb.com.br/blog/o-que-e-e-como-funciona-a-estrutura-de-dados-fila"
-            target="_blank"
-            class="text-[var(--blue)] hover:underline"
-            >O que é uma Estrutura de Dados do tipo Fila (TreinaWeb)</a
-          >
-        </div>
+        <!-- Adições -->
+        <div>• <a href="https://cp-algorithms.com" target="_blank" class="text-[var(--blue)] hover:underline">CP-Algorithms: Treaps</a></div>
+        <div>• <a href="https://www.geeksforgeeks.org" target="_blank" class="text-[var(--blue)] hover:underline">GeeksforGeeks: Treap (Randomized Balanced BST)</a></div>
+        <div>• <a href="https://visualgo.net" target="_blank" class="text-[var(--blue)] hover:underline">VisuAlgo: Treap Visualization Tool</a></div>
+        <div>• <a href="https://usaco.guide" target="_blank" class="text-[var(--blue)] hover:underline">USACO Guide: Treaps and Randomized Data Structures</a></div>
+
+        <div class="mt-3 font-semibold">Artigos clássicos e trabalhos fundamentais</div>
+        <div>• Bloom, B. H. Space/Time Trade-offs in Hash Coding with Allowable Errors. CACM, 13(7), 422–426, 1970.</div>
+        <div>• Driscoll, J. R.; Sarnak, N.; Sleator, D.; Tarjan, R. Making Data Structures Persistent. JCSS, 38(1), 86–124, 1989.</div>
+        <div>• O’Neil, P.; Cheng, E.; Gawlick, D.; O'Neil, E. The Log-Structured Merge-Tree (LSM-Tree). Acta Informatica, 33, 351–385, 1996.</div>
+        <div>• Pugh, W. Skip Lists: A Probabilistic Alternative to Balanced Trees. CACM, 33(6), 668–676, 1990.</div>
+        <div>• Sleator, D. D.; Tarjan, R. E. Self-Adjusting Binary Search Trees. JACM, 32(3), 652–686, 1985.</div>
+        <div>• Ongaro, D.; Ousterhout, J. In Search of an Understandable Consensus Algorithm (Raft). USENIX ATC, 2014.</div>
       </div>
     </div>
   </div>
